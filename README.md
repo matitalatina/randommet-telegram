@@ -41,4 +41,4 @@ Enjoy!
 
 ## FAQ
 
-- _Why the bot replies in Italian?!_ Because all my friends and I are Italians! But I wrote the code in English, so feel free to change the reply messages with your language! ;) 
+- _Why does the bot reply in Italian?!_ Because all my friends and I are Italians! But I wrote the code in English, so feel free to change the reply messages with your language! ;) 
