@@ -14,16 +14,14 @@ Basic Echobot example, repeats messages.
 Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
+import logging
 import os
 import random
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import logging
-import re
+from telegram.ext import Updater, CommandHandler
 
-# Enable logging
-from oracles.element import ElementOracle
 from oracles.color import ColorOracle
+from oracles.element import ElementOracle
 from oracles.number import NumberOracle
 
 logging.basicConfig(
