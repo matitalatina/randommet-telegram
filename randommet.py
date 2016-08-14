@@ -22,6 +22,7 @@ import logging
 import re
 
 # Enable logging
+from oracles.element import ElementOracle
 from oracles.color import ColorOracle
 from oracles.number import NumberOracle
 
@@ -31,12 +32,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 token = os.environ['TELEGRAM_TOKEN']
-
-
-# Define a few command handlers. These usually take the two arguments bot and
-# update. Error handlers also receive the raised TelegramError object in error.
-def start(bot, update):
-    bot.sendMessage(update.message.chat_id, text='Hi!')
 
 
 def help(bot, update):
@@ -53,7 +48,7 @@ def echo(bot, update):
     elif any(x in message for x in ["scegl", "trov", "estra"]):
         choice(bot, update)
     elif any(x in message for x in [", ", " o ", " oppure "]):
-        choose_elem(bot, update)
+        ElementOracle.reply(bot, update)
 
 
 def error(bot, update, error):
@@ -70,29 +65,7 @@ def choice(bot, update):
     elif "color" in message:
         ColorOracle.reply(bot, update)
     elif any(x in message for x in [",", " o ", " oppure "]):
-        choose_elem(bot, update)
-    #elif "gruppo" in message:
-    #    chooseUser(bot, update)
-
-
-def choose_user(bot, update):
-    bot.sendMessage(update.message.chat_id, text=update.message.chat.first_name)
-
-
-def choose_elem(bot, update):
-    message = update.message.text
-
-    if "@" + bot.username in message:
-        string = message.split("@" + bot.username, 1)[1].split(" ", 1)[1]
-    else:
-        string = message
-
-    items = re.split(", | o | oppure ", string)
-    if len(items) > 0:
-        items[0] = items[0].split(" ")[-1]
-    item_chosen = random.choice(items)
-    response = random.choice(["La scelta migliore è ", "Io vi consiglio ", "Sicuramente ", "Non ho dubbi: "]) + item_chosen.strip(" ")
-    bot.sendMessage(update.message.chat_id, text=response)
+        ElementOracle.reply(bot, update)
 
 
 def greetings(bot, update):
@@ -147,12 +120,7 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    # on different commands - answer in Telegram
-    #dp.addTelegramCommandHandler("start", start)
     dp.add_handler(CommandHandler("aiuto", help))
-
-    # on noncommand i.e message - echo the message on Telegram
-    #dp.add_handler(MessageHandler([Filters.text], echo))
     dp.add_handler(CommandHandler("rm", echo))
 
     # log all errors
