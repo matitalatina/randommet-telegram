@@ -12,7 +12,7 @@ This is the translation of the help message
 - Colors: "_Choose a color_"
 
 
-Remember to call Randommet if you want to use it in a group. You can do that writing `@[bot.username]` at the beginning of the message. Change `bot.username` with the name of your modded bot.
+Remember to call Randommet if you want to use it in a group. You can do that writing `/rm@[bot.username]` at the beginning of the message. Change `bot.username` with the name of your modded bot.
 
 ## Requirements
 
@@ -25,9 +25,7 @@ Install dependencies
 
 ```$ pip install python-telegram-bot```
 
-Add your token bot in the line
-
-```updater = Updater("***YOUR_TOKEN_HERE***")```
+Add your token bot in the environment variable `TELEGRAM_TOKEN`
 
 Start it
 
