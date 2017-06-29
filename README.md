@@ -23,7 +23,7 @@ Remember to call Randommet if you want to use it in a group. You can do that wri
 
 Install dependencies
 
-```$ pip install python-telegram-bot```
+```$ pip install -r requirements.txt```
 
 Add your token bot in the environment variable `TELEGRAM_TOKEN`
 
@@ -36,6 +36,10 @@ In production mode use it instead (no log, you can close your terminal):
 ```nohup python3 randommet.py  </dev/null >/dev/null 2>&1```
 
 Enjoy!
+
+## Docker
+
+```docker run -d --restart always -e TELEGRAM_TOKEN='<YOUR_TELEGRAM_TOKEN>' matitalatina/randommet-telegram```
 
 ## FAQ
 
