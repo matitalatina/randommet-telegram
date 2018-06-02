@@ -33,7 +33,7 @@ token = os.environ['TELEGRAM_TOKEN']
 
 
 def help(bot, update):
-    bot.sendMessage(update.message.chat_id, text='• Oracolo: concludi la frase con "?".\n  Esempio: Oggi dovrei studiare?\n• Lista: proponimi qualche alternativa separando le scelte con la virgola. Io ti mostrerò la scelta migliore.\n Esempio: cinema, bowling, bar\n• Numeri: "Scegli un numero tra 0 e 25", "Scegli 6 numeri senza ripetizioni da 1 a 90", "Scegli una dozzina di numeri", "Scegli un numero fino a 10"\n• Colore: "Scegli un colore"\n\nNei gruppi ricordati di chiamarmi scrivendo \rm@' + bot.username + ' all\'inizio del messaggio')
+    bot.send_message(update.message.chat_id, text='• Oracolo: concludi la frase con "?".\n  Esempio: Oggi dovrei studiare?\n• Lista: proponimi qualche alternativa separando le scelte con la virgola. Io ti mostrerò la scelta migliore.\n Esempio: cinema, bowling, bar\n• Numeri: "Scegli un numero tra 0 e 25", "Scegli 6 numeri senza ripetizioni da 1 a 90", "Scegli una dozzina di numeri", "Scegli un numero fino a 10"\n• Colore: "Scegli un colore"\n\nNei gruppi ricordati di chiamarmi scrivendo \rm@' + bot.username + ' all\'inizio del messaggio')
 
 
 def echo(bot, update):
@@ -69,7 +69,7 @@ def choice(bot, update):
 def greetings(bot, update):
     if bot.username in update.message.new_chat_participant.username:
         message = "Salve" + (" a tutti" if update.message.chat.type == "group" else "") + "! Posso essere d'aiuto?"
-        bot.sendMessage(update.message.chat_id, text=message)
+        bot.send_message(update.message.chat_id, text=message)
 
 
 def oracle(bot, update):
@@ -108,7 +108,7 @@ def oracle(bot, update):
         "Fallo!",
         "Non scommetterci.",
         "Dimenticalo."])
-    bot.sendMessage(update.message.chat_id, text=response)
+    bot.send_message(update.message.chat_id, text=response)
 
 
 def main():

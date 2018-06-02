@@ -19,4 +19,4 @@ class ElementOracle(object):
         item_chosen = random.choice(items)
         response = random.choice(
             ["La scelta migliore è ", "Io vi consiglio ", "Sicuramente ", "Non ho dubbi: "]) + item_chosen.strip(" ")
-        bot.sendMessage(update.message.chat_id, text=response)
+        bot.send_message(update.message.chat_id, text=response)

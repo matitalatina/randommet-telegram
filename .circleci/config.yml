@@ -1,0 +1,47 @@
+version: 2
+jobs:
+  build-docker-image:
+    docker:
+      - image: circleci/node:8.11.1
+    working_directory: '~'
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+        - name: Log into docker
+        - command: docker login -u $DOCKER_USER -p $DOCKER_PASS &&
+      - run:
+        - name: Build
+        - command: docker build -t $DOCKER_IMAGE_NAME .
+      - run:
+        - name: Push image to docker hub
+        - command: docker push $DOCKER_IMAGE_NAME
+  deploy-docker-image:
+    docker:
+      - image: circleci/node:8.11.1
+    working_directory: '~'
+    steps:
+      - run:
+          command: >
+            mkdir -p ~/.ssh && touch ~/.ssh/known_hosts &&
+            ssh-keyscan -H $FUN_MET_SSH_HOST >> ~/.ssh/known_hosts &&
+            ssh $FUN_MET_SSH_USER@$FUN_MET_SSH_HOST
+            "docker pull $DOCKER_IMAGE_NAME &&
+            docker stop randommet-telegram &&
+            docker rm randommet-telegram &&
+            docker run -d -p 2369:2369 --restart=always  &&
+            docker run --restart always -e TELEGRAM_TOKEN=$TELEGRAM_TOKEN -d --name=randommet-telegram $DOCKER_IMAGE_NAME &&
+            docker system prune -af"
+
+workflows:
+  version: 2
+  build-and-deploy-blog:
+    jobs:
+      - build-docker-image:
+          filters:
+            branches:
+              only:
+                - master
+      - deploy-docker-image:
+          requires:
+            - build-docker-image

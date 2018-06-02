@@ -10,7 +10,7 @@ class ColorOracle(object):
         dummy_image_url = "http://dummyimage.com/300/{0}/{0}".format(hex_val)
         response = random.choice(
             ["Per me ti andrebbe bene questo: ", "La scelta migliore è: "]) + color_name + "\n" + dummy_image_url
-        bot.sendMessage(update.message.chat_id, text=response)
+        bot.send_message(update.message.chat_id, text=response)
 
     @staticmethod
     def get_colors():

@@ -36,7 +36,7 @@ class NumberOracle(object):
     @classmethod
     def show_numbers(cls, bot, update, numbers):
         response = "Ecco qui: " + ", ".join(map(str, numbers))
-        bot.sendMessage(update.message.chat_id, text=response)
+        bot.send_message(update.message.chat_id, text=response)
 
     @classmethod
     def choose_range_numbers(cls, bot, update, numbers):
