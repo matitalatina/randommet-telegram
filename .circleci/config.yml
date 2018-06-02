@@ -26,8 +26,8 @@ jobs:
             ssh-keyscan -H $FUN_MET_SSH_HOST >> ~/.ssh/known_hosts &&
             ssh $FUN_MET_SSH_USER@$FUN_MET_SSH_HOST
             "docker pull $DOCKER_IMAGE_NAME &&
-            docker stop randommet-telegram &&
-            docker rm randommet-telegram &&
+            docker stop randommet-telegram;
+            docker rm randommet-telegram;
             docker run --restart always -e TELEGRAM_TOKEN=$TELEGRAM_TOKEN -d --name=randommet-telegram $DOCKER_IMAGE_NAME &&
             docker system prune -af"
 
