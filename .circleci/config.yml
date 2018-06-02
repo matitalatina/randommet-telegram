@@ -22,16 +22,16 @@ jobs:
     working_directory: '~'
     steps:
       - run:
-          command: >
-            mkdir -p ~/.ssh && touch ~/.ssh/known_hosts &&
-            ssh-keyscan -H $FUN_MET_SSH_HOST >> ~/.ssh/known_hosts &&
-            ssh $FUN_MET_SSH_USER@$FUN_MET_SSH_HOST
-            "docker pull $DOCKER_IMAGE_NAME &&
-            docker stop randommet-telegram &&
-            docker rm randommet-telegram &&
-            docker run -d -p 2369:2369 --restart=always  &&
-            docker run --restart always -e TELEGRAM_TOKEN=$TELEGRAM_TOKEN -d --name=randommet-telegram $DOCKER_IMAGE_NAME &&
-            docker system prune -af"
+        - command: >
+          mkdir -p ~/.ssh && touch ~/.ssh/known_hosts &&
+          ssh-keyscan -H $FUN_MET_SSH_HOST >> ~/.ssh/known_hosts &&
+          ssh $FUN_MET_SSH_USER@$FUN_MET_SSH_HOST
+          "docker pull $DOCKER_IMAGE_NAME &&
+          docker stop randommet-telegram &&
+          docker rm randommet-telegram &&
+          docker run -d -p 2369:2369 --restart=always  &&
+          docker run --restart always -e TELEGRAM_TOKEN=$TELEGRAM_TOKEN -d --name=randommet-telegram $DOCKER_IMAGE_NAME &&
+          docker system prune -af"
 
 workflows:
   version: 2
