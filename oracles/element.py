@@ -1,15 +1,16 @@
 import random
 import re
 
+from oracles.oracle import Oracle
 
-class ElementOracle(object):
 
-    @classmethod
-    def reply(cls, bot, update):
-        message = update.message.text
+class ElementOracle(Oracle):
 
-        if "@" + bot.username in message:
-            string = message.split("@" + bot.username, 1)[1].split(" ", 1)[1]
+    def handle(self):
+        message = self.update.message.text
+
+        if "@" + self.bot.username in message:
+            string = message.split("@" + self.bot.username, 1)[1].split(" ", 1)[1]
         else:
             string = message
 
@@ -19,4 +20,4 @@ class ElementOracle(object):
         item_chosen = random.choice(items)
         response = random.choice(
             ["La scelta migliore è ", "Io vi consiglio ", "Sicuramente ", "Non ho dubbi: "]) + item_chosen.strip(" ")
-        bot.send_message(update.message.chat_id, text=response)
+        self.reply(response)

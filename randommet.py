@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-# Simple Bot to reply to Telegram messages
-# This program is dedicated to the public domain under the CC0 license.
-
 """
 This Bot uses the Updater class to handle the bot.
 First, a few handler functions are defined. Then, those functions are passed to
@@ -16,13 +12,13 @@ bot.
 """
 import logging
 import os
-import random
 
 from telegram.ext import Updater, CommandHandler
 
 from oracles.color import ColorOracle
 from oracles.element import ElementOracle
 from oracles.number import NumberOracle
+from oracles.question import QuestionOracle
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -40,13 +36,13 @@ def echo(bot, update):
     update.message.text = update.message.text.lower()
     message = update.message.text
     if message.endswith("?"):
-        oracle(bot, update)
+        QuestionOracle(bot, update).handle()
     elif update.message.new_chat_member:
         greetings(bot, update)
     elif any(x in message for x in ["scegl", "trov", "estra"]):
         choice(bot, update)
     elif any(x in message for x in [", ", " o ", " oppure "]):
-        ElementOracle.reply(bot, update)
+        ElementOracle(bot, update).handle()
 
 
 def error(bot, update, error):
@@ -59,56 +55,17 @@ def error(bot, update, error):
 def choice(bot, update):
     message = update.message.text
     if "numer" in message:
-        NumberOracle.reply(bot, update)
+        NumberOracle(bot, update).handle()
     elif "color" in message:
-        ColorOracle.reply(bot, update)
+        ColorOracle(bot, update).handle()
     elif any(x in message for x in [",", " o ", " oppure "]):
-        ElementOracle.reply(bot, update)
+        ElementOracle(bot, update).handle()
 
 
 def greetings(bot, update):
     if bot.username in update.message.new_chat_participant.username:
         message = "Salve" + (" a tutti" if update.message.chat.type == "group" else "") + "! Posso essere d'aiuto?"
         bot.send_message(update.message.chat_id, text=message)
-
-
-def oracle(bot, update):
-    response = ("Bella domanda " + update.message.from_user.first_name + "... ") if (random.random() <= 0.2) else ""
-    response += random.choice(["I segnali indicano sì.",
-        "Sì.",
-        "Senza dubbio.",
-        "Le mie fonti dicono no.",
-        "Per come la vedo io, sì.",
-        "Puoi contarci.",
-        "Concentrati e richiedilo.",
-        "Le prospettive non sono così buone.",
-        "È decisamente così.",
-        "Ora è meglio non dirtelo...",
-        "Sono molto dubbioso.",
-        "Sì, decisamente.",
-        "È certo.",
-        "Non posso predirlo ora.",
-        "Molto probabilmente.",
-        "Richiedilo più tardi.",
-        "La mia risposta è no.",
-        "Le prospettive sono buone.",
-        "Non contarci",
-        "Sì, a tempo debito.",
-        "Le mie fonti dicono no.",
-        "Decisamente no.",
-        "Sì.",
-        "Devi aspettare.",
-        "Ho i miei dubbi.",
-        "Le prospettive sono così così.",
-        "Mi sembra buono!",
-        "Chi lo sa?",
-        "Mi piace!",
-        "Probabilmente.",
-        "Stai scherzando?",
-        "Fallo!",
-        "Non scommetterci.",
-        "Dimenticalo."])
-    bot.send_message(update.message.chat_id, text=response)
 
 
 def main():

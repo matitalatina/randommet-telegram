@@ -1,16 +1,18 @@
 import random
 
+from oracles.oracle import Oracle
 
-class ColorOracle(object):
-    @classmethod
-    def reply(cls, bot, update):
-        colors = cls.get_colors()
+
+class ColorOracle(Oracle):
+
+    def handle(self):
+        colors = self.get_colors()
         color_name = random.choice(list(colors.keys()))
         hex_val = colors[color_name]
         dummy_image_url = "http://dummyimage.com/300/{0}/{0}".format(hex_val)
         response = random.choice(
             ["Per me ti andrebbe bene questo: ", "La scelta migliore è: "]) + color_name + "\n" + dummy_image_url
-        bot.send_message(update.message.chat_id, text=response)
+        self.reply(response)
 
     @staticmethod
     def get_colors():
