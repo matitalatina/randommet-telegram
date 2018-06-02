@@ -37,7 +37,7 @@ def echo(bot, update):
     message = update.message.text
     if message.endswith("?"):
         QuestionOracle(bot, update).handle()
-    elif update.message.new_chat_member:
+    elif update.message.new_chat_members:
         greetings(bot, update)
     elif any(x in message for x in ["scegl", "trov", "estra"]):
         choice(bot, update)
