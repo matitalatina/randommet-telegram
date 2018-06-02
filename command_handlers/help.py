@@ -1,3 +1,4 @@
+from telegram import ParseMode
 from telegram.ext import CommandHandler
 
 
@@ -16,4 +17,5 @@ class HelpCommandHandler(CommandHandler):
 • **Numeri**: "*Scegli un numero tra 0 e 25*", "*Scegli 6 numeri senza ripetizioni da 1 a 90*", "*Scegli una dozzina di numeri*", "*Scegli un numero fino a 10*"\n
 • **Colore**: "*Scegli un colore*"\n
  
-Nei gruppi ricordati di chiamarmi scrivendo /rm@{bot.username} all'inizio del messaggio.""")
+Nei gruppi ricordati di chiamarmi scrivendo /rm@{bot.username} all'inizio del messaggio.""",
+                         parse_mode=ParseMode.MARKDOWN)
