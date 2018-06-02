@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Log into docker
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS &&
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Build
           command: docker build -t $DOCKER_IMAGE_NAME .
