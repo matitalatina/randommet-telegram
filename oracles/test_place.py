@@ -24,7 +24,7 @@ class TestPlaceOracle(TestCase):
         latitude = 10
         longitude = 15
         responses.add(responses.GET,
-                      f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude},{longitude}&radius={PlaceOracle.RADIUS_METERS}&type=bar&key={os.environ.get("GOOGLE_PLACE_API_KEY")}',
+                      f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude},{longitude}&radius={PlaceOracle.RADIUS_METERS}&type=bar&opennow=1&key={os.environ.get("GOOGLE_PLACE_API_KEY")}',
                       body=get_fake_place_api(),
                       content_type='application/json')
         expected_json = json.loads(get_fake_place_api())

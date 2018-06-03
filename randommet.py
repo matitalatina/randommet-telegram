@@ -13,7 +13,7 @@ bot.
 import logging
 import os
 
-from telegram.ext import Updater, CallbackQueryHandler
+from telegram.ext import Updater, CallbackQueryHandler, MessageHandler, Filters
 
 from command_handlers.help import HelpCommandHandler
 from command_handlers.oracle import OracleCommandHandler
@@ -31,6 +31,11 @@ def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"' % (update, error))
 
 
+def location_handler(bot, update):
+    query = update.callback_query
+    PlaceOracle.from_env(bot, update).handle()
+
+
 def main():
     # Create the EventHandler and pass it your bot's token.
     updater = Updater(token)
@@ -40,7 +45,7 @@ def main():
 
     dp.add_handler(HelpCommandHandler("aiuto"))
     dp.add_handler(OracleCommandHandler("rm"))
-    dp.add_handler(CallbackQueryHandler(lambda bot, update: PlaceOracle.from_env(bot, update).handle()))
+    dp.add_handler(MessageHandler(Filters.location, location_handler))
 
     # log all errors
     dp.add_error_handler(error)
