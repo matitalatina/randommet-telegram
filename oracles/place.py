@@ -21,7 +21,7 @@ class PlaceOracle(Oracle):
             location_keyboard = KeyboardButton(text="Invia posizione", request_location=True)
             custom_keyboard = [[location_keyboard]]
             reply_markup = ReplyKeyboardMarkup(custom_keyboard, one_time_keyboard=True)
-            return self.reply('/rm Dove Per consigliarti. Ho bisogno della tua posizione.', reply_markup=reply_markup)
+            return self.reply('Per consigliarti, ho bisogno della tua posizione.', reply_markup=reply_markup)
         google_place = self.choose_place(self.get_google_places(location.latitude, location.longitude))
         name_encoded = urllib.parse.quote_plus(google_place.get('name'))
         self.reply(f"Il posto per te è {google_place.get('name')}.\nhttps://www.google.com/maps/search/?api=1&query={name_encoded}&query_place_id={google_place.get('place_id')}")
