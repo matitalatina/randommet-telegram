@@ -1,5 +1,6 @@
 import os
 import random
+import urllib.parse
 
 import requests
 from telegram import KeyboardButton, ReplyKeyboardMarkup
@@ -22,7 +23,7 @@ class PlaceOracle(Oracle):
             reply_markup = ReplyKeyboardMarkup(custom_keyboard, one_time_keyboard=True)
             return self.reply('/rm Dove Per consigliarti. Ho bisogno della tua posizione.', reply_markup=reply_markup)
         google_place = self.choose_place(self.get_google_places(location.latitude, location.longitude))
-        self.reply(f"Il posto per te è {google_place.get('name')}.\nhttps://www.google.com/maps/search/?api=1&query={google_place.get('name')}&query_place_id={google_place.get('place_id')}")
+        self.reply(f"Il posto per te è {google_place.get('name')}.\nhttps://www.google.com/maps/search/?api=1&query={urllib.parse.urlencode(google_place.get('name'))}&query_place_id={google_place.get('place_id')}")
 
     def get_google_places(self, latitude, longitude):
         response = requests.get( f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude},{longitude}&radius={PlaceOracle.RADIUS_METERS}&type=bar&opennow=1&key={self._google_place_api_key}').json()
