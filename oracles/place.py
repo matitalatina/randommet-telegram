@@ -2,6 +2,7 @@ import os
 import random
 
 import requests
+from telegram import KeyboardButton, ReplyKeyboardMarkup
 
 from oracles.oracle import Oracle
 
@@ -16,7 +17,10 @@ class PlaceOracle(Oracle):
     def handle(self):
         location = self.update.message.location
         if not location:
-            return self.reply('Non so le tue coordinate, non posso consigliarti un posto.')
+            location_keyboard = KeyboardButton(text="Invia posizione", request_location=True)
+            custom_keyboard = [[location_keyboard]]
+            reply_markup = ReplyKeyboardMarkup(custom_keyboard)
+            return self.reply('Per consigliarti, ho bisogno della tua posizione.', reply_markup=reply_markup)
         google_place = self.choose_place(self.get_google_places(location.latitude, location.longitude))
         self.reply(f"Il posto per te è {google_place.name}.\nhttps://maps.google.com/?cid={google_place.place_id}")
 

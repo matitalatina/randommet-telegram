@@ -10,5 +10,5 @@ class Oracle(object):
     def handle(self):
         raise NotImplementedError()
 
-    def reply(self, response):
-        self.bot.send_message(self.update.message.chat_id, text=response)
+    def reply(self, response, reply_markup=None):
+        self.bot.send_message(self.update.message.chat_id, text=response, reply_markup=reply_markup)
