@@ -3,6 +3,7 @@ from telegram.ext import CommandHandler
 from oracles.color import ColorOracle
 from oracles.element import ElementOracle
 from oracles.number import NumberOracle
+from oracles.place import PlaceOracle
 from oracles.question import QuestionOracle
 
 
@@ -22,6 +23,8 @@ class OracleCommandHandler(CommandHandler):
             cls.choice(bot, update)
         elif any(x in message for x in [", ", " o ", " oppure "]):
             ElementOracle(bot, update).handle()
+        elif any(x in message for x in ["dove "]):
+            PlaceOracle.from_env(bot, update).handle()
 
     @staticmethod
     def choice(bot, update):
