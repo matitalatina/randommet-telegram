@@ -13,10 +13,10 @@ bot.
 import logging
 import os
 
-from telegram.ext import Updater, CallbackQueryHandler, MessageHandler, Filters
+from telegram.ext import Updater, MessageHandler, Filters
 
 from command_handlers.help import HelpCommandHandler
-from command_handlers.oracle import OracleCommandHandler
+from message_handlers.oracle import OracleMessageHandler
 from oracles.place import PlaceOracle
 
 logging.basicConfig(
@@ -44,8 +44,8 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(HelpCommandHandler("aiuto"))
-    dp.add_handler(OracleCommandHandler("rm"))
     dp.add_handler(MessageHandler(Filters.location, location_handler))
+    dp.add_handler(OracleMessageHandler())
 
     # log all errors
     dp.add_error_handler(error)

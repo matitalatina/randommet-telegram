@@ -1,4 +1,4 @@
-from telegram.ext import CommandHandler
+from telegram.ext import MessageHandler
 
 from oracles.color import ColorOracle
 from oracles.element import ElementOracle
@@ -7,9 +7,9 @@ from oracles.place import PlaceOracle
 from oracles.question import QuestionOracle
 
 
-class OracleCommandHandler(CommandHandler):
-    def __init__(self, command):
-        super().__init__(command, self.callback)
+class OracleMessageHandler(MessageHandler):
+    def __init__(self):
+        super().__init__(None, self.callback)
 
     @classmethod
     def callback(cls, bot, update):
