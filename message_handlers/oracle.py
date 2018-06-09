@@ -13,18 +13,18 @@ class OracleMessageHandler(MessageHandler):
 
     @classmethod
     def callback(cls, bot, update):
-        update.message.text = update.message.text.lower()
+        update.message.text = cls.sanitize_message(update.message.text, bot.username)
         message = update.message.text
         if message.endswith("?"):
-            QuestionOracle(bot, update).handle()
+            if message.startswith("dove "):
+                return PlaceOracle.from_env(bot, update).handle()
+            return QuestionOracle(bot, update).handle()
         elif update.message.new_chat_members:
-            cls.greetings(bot, update)
+            return cls.greetings(bot, update)
         elif any(x in message for x in ["scegl", "trov", "estra"]):
-            cls.choice(bot, update)
+            return cls.choice(bot, update)
         elif any(x in message for x in [", ", " o ", " oppure "]):
-            ElementOracle(bot, update).handle()
-        elif any(x in message for x in ["dove "]):
-            PlaceOracle.from_env(bot, update).handle()
+            return ElementOracle(bot, update).handle()
 
     @staticmethod
     def choice(bot, update):
@@ -41,3 +41,9 @@ class OracleMessageHandler(MessageHandler):
         if bot.username in update.message.new_chat_participant.username:
             message = "Salve" + (" a tutti" if update.message.chat.type == "group" else "") + "! Posso essere d'aiuto?"
             bot.send_message(update.message.chat_id, text=message)
+
+    @staticmethod
+    def sanitize_message(text, bot_username):
+        sanitized_message = text.lower()
+        sanitized_message.replace(f'@{bot_username}')
+        return sanitized_message
