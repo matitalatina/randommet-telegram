@@ -44,6 +44,4 @@ class OracleMessageHandler(MessageHandler):
 
     @staticmethod
     def sanitize_message(text, bot_username):
-        sanitized_message = text.lower()
-        sanitized_message.replace(f'@{bot_username}')
-        return sanitized_message
+        return text.lower().replace(f'@{bot_username}', '').strip()
